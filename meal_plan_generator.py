@@ -2,9 +2,10 @@ import PyPDF2
 import os
 import re
 import random
+from collections import OrderedDict
 #program_path = os.path.dirname(__file__)
 
-#to_do: data should be returned after each iteration
+#to_do: 
 def extract_recipe(pdf_file):
     for page in pdf_file.pages:
             content = page.extract_text()
@@ -35,9 +36,6 @@ recipes_path = os.path.join(desktop_path, "NUTRITION")
 
 
 
-#breakfast_folder = os.path.join(recipes_path, "supper")
-
-#files = os.listdir(breakfast_folder)
 main_recipes_storage = {}
 folders_in_nutrition = os.listdir(recipes_path)
 for folder in folders_in_nutrition:
@@ -99,7 +97,7 @@ print(storage)
 while True:
     menu = []
     calories = 0
-    #for i in range(0,4): - unnecessary
+    
     for category in main_recipes_storage:
             random_book = random.choice(main_recipes_storage[category])
             meal_tuple = random.choice(random_book)
@@ -119,7 +117,7 @@ for pos in  menu:
     calories = calories + meal
 
 print(f'Your daily intake: {calories}')
-#print(main_recipes_storage[category].index(random_book))
+
 
 
 
