@@ -36,7 +36,7 @@ recipes_path = os.path.join(desktop_path, "NUTRITION")
 
 
 
-main_recipes_storage = {}
+main_recipes_storage = OrderedDict()
 folders_in_nutrition = os.listdir(recipes_path)
 for folder in folders_in_nutrition:
     current_folder = os.path.join(recipes_path, folder)
