@@ -42,10 +42,12 @@ for folder in folders_in_nutrition:
     current_folder = os.path.join(recipes_path, folder)
     files = os.listdir(current_folder)
     storage = []
+    counter = 1
     for file in files:
     #storage = []
     #for file in files:
         seperate_file = []
+        
         with open(os.path.join(current_folder, file), 'rb') as file:
             reader = PyPDF2.PdfReader(file, strict = False)
             
@@ -59,7 +61,9 @@ for folder in folders_in_nutrition:
                 page_number= reader.get_page_number(page)
                 
                 show_result = filter_out(result.group())
-                
+                if len(seperate_file) == 0: 
+                    seperate_file.append(counter)
+                    counter =counter +1
                 assignment = (show_result, page_number)  
                 seperate_file.append(assignment)
             
