@@ -4,16 +4,6 @@ import re
 import random
 from collections import OrderedDict
 
-#to_do: 
-def extract_recipe(pdf_file):
-    for page in pdf_file.pages:
-            content = page.extract_text()
-            result = re.search("\d{3}.*kcal", content)
-            if result == None:
-                continue
-            page_number= reader.get_page_number(page)
-            data = (result, page_number)
-    return data
 
 def filter_out(search_result):
     filtered = (search_result.split()[0].strip()).replace(",",".")
@@ -30,7 +20,6 @@ def filter_out(search_result):
 
 desktop_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop') 
 recipes_path = os.path.join(desktop_path, "NUTRITION")
-
 
 main_recipes_storage = OrderedDict()
 folders_in_nutrition = os.listdir(recipes_path)
@@ -56,12 +45,6 @@ for folder in folders_in_nutrition:
                 assignment = (show_result, page_number)  
                 seperate_file.append(assignment)
             
-            #data = extract_recipe(reader)
-            #kcal, page_number = data
-            #show_result = filter_out(kcal.group())
-            #assignment = (show_result, page_number)  
-            #print(assignment)
-            #storage.append(assignment)
             storage.append(seperate_file)
             
     current_folder_name = os.path.basename(current_folder)
