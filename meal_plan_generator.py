@@ -4,7 +4,6 @@ import re
 import random
 from collections import OrderedDict
 
-
 def filter_out(search_result):
     filtered = (search_result.split()[0].strip()).replace(",",".")
     if len(filtered)== 5:
@@ -18,13 +17,31 @@ def filter_out(search_result):
         assigned = float(filtered)
     return assigned
 
-desktop_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop') 
-recipes_path = os.path.join(desktop_path, "NUTRITION")
+def create_paths():
+    desktop_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
+    recipes_path = os.path.join(desktop_path, "NUTRITION")
+    return recipes_path
 
+def return_list_of_folders():
+    folders_in_nutrition = os.listdir(create_paths())
+    return folders_in_nutrition
+
+def get_calorie_intake():
+    while True:
+        intake = int(input("Enter your intake: "))
+        if intake > 0:
+            break
+        else:
+            print("Try once again")
+    return intake
+
+    
 main_recipes_storage = OrderedDict()
-folders_in_nutrition = os.listdir(recipes_path)
+folders_in_nutrition = return_list_of_folders()
+users_intake = get_calorie_intake()
+
 for folder in folders_in_nutrition:
-    current_folder = os.path.join(recipes_path, folder)
+    current_folder = os.path.join(create_paths(), folder)
     files = os.listdir(current_folder)
     storage = []
       
@@ -32,28 +49,21 @@ for folder in folders_in_nutrition:
         seperate_file = []
         with open(os.path.join(current_folder, file), 'rb') as file:
             reader = PyPDF2.PdfReader(file, strict = False)
-            
             for page in reader.pages:
                 content = page.extract_text()
                 result = re.search("\d{3}.*kcal", content)
-                
                 if result == None:
                     continue
-                
                 page_number= reader.get_page_number(page)
                 show_result = filter_out(result.group())
                 assignment = (show_result, page_number)  
                 seperate_file.append(assignment)
-            
-            storage.append(seperate_file)
-            
+            storage.append(seperate_file)        
     current_folder_name = os.path.basename(current_folder)
     if current_folder_name not in main_recipes_storage:
          main_recipes_storage[current_folder_name] = storage
 
-#print(main_recipes_storage)         
-#print(storage)   
-
+   
 while True:
     menu = []
     calories = 0
@@ -67,7 +77,8 @@ while True:
             menu_pos = meal, page_no, book_number
             menu.append(menu_pos)
     
-    if calories > 2300 and calories < 2600:
+    
+    if calories > users_intake-200 and calories < users_intake+100:
         break      
 
 calories = 0
