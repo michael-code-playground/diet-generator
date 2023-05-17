@@ -4,6 +4,7 @@ import re
 import random
 from collections import OrderedDict
 
+#delete unecessary characters, convert into float
 def filter_out(search_result):
     filtered = (search_result.split()[0].strip()).replace(",",".")
     if len(filtered)== 5:
@@ -17,15 +18,18 @@ def filter_out(search_result):
         assigned = float(filtered)
     return assigned
 
+#determine path desktop, catalog with cookbooks
 def create_paths():
     desktop_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
     recipes_path = os.path.join(desktop_path, "NUTRITION")
     return recipes_path
 
+#return folders in the main one
 def return_list_of_folders():
     folders_in_nutrition = os.listdir(create_paths())
     return folders_in_nutrition
 
+#get user's input
 def get_calorie_intake():
     while True:
         intake = int(input("Enter your intake: "))
@@ -40,15 +44,19 @@ main_recipes_storage = OrderedDict()
 folders_in_nutrition = return_list_of_folders()
 users_intake = get_calorie_intake()
 
+#iterate through each catalog
 for folder in folders_in_nutrition:
     current_folder = os.path.join(create_paths(), folder)
     files = os.listdir(current_folder)
     storage = []
-      
+    
+    #iterate through each pdf file
     for file in files:
         seperate_file = []
         with open(os.path.join(current_folder, file), 'rb') as file:
             reader = PyPDF2.PdfReader(file, strict = False)
+            
+            #search every page
             for page in reader.pages:
                 content = page.extract_text()
                 result = re.search("\d{3}.*kcal", content)
@@ -59,15 +67,18 @@ for folder in folders_in_nutrition:
                 assignment = (show_result, page_number)  
                 seperate_file.append(assignment)
             storage.append(seperate_file)        
+    
+    #create dictionary - assign recipes for each category
     current_folder_name = os.path.basename(current_folder)
     if current_folder_name not in main_recipes_storage:
          main_recipes_storage[current_folder_name] = storage
 
-   
+#repeat until criteria below is met   
 while True:
     menu = []
     calories = 0
     
+    #pick out random recipe for each meal
     for category in main_recipes_storage:
             random_book = random.choice(main_recipes_storage[category])
             meal_tuple = random.choice(random_book)
@@ -77,11 +88,12 @@ while True:
             menu_pos = meal, page_no, book_number
             menu.append(menu_pos)
     
-    
+    #break if calories fit user's requirement
     if calories > users_intake-200 and calories < users_intake+100:
         break      
 
 calories = 0
+#display results
 for pos in  menu:
     meal, page_no, book_no = pos
     print(f'See page {page_no}, in the book {book_no}, you will be fuelled with {meal} kcal')
