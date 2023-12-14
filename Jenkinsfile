@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     // Run your Python program with automated input
-                    sh 'echo 2500 | meal_plan_generator.py'
+                    sh 'echo 2500 | ./meal_plan_generator.py'
                 }
             }
         }
