@@ -59,6 +59,7 @@ for folder in folders_in_nutrition:
             #search every page
             for page in reader.pages:
                 content = page.extract_text()
+                
                 result = re.search("\d{3}.*kcal", content)
                 if result == None:
                     continue
@@ -94,10 +95,25 @@ while True:
 
 calories = 0
 #display results
+count = 0
 for pos in  menu:
     meal, page_no, book_no = pos
     print(f'See page {page_no}, in the book {book_no}, you will be fuelled with {meal} kcal')
     calories = calories + meal
+    
+
+    #extract a complete recipe
+    path_desktop = create_paths()
+    current_folder = os.path.join(path_desktop, folders_in_nutrition[count], "")
+    file_path = current_folder+str(book_no)+".pdf"
+    count = count + 1
+    reader = PyPDF2.PdfReader(file_path)
+    page = reader.pages[page_no]
+    
+    #redirect content to the file 
+    with open("recipe.txt", 'a', encoding='utf-8') as file:
+        
+        file.write(f"{str(calories)}\n{page.extract_text()}\n")
 
 print(f'Your daily intake: {calories}')
 
