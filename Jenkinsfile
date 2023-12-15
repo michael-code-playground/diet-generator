@@ -42,7 +42,12 @@ pipeline {
             // Archive and rename the artifact in the workspace
             archiveArtifacts 'recipe.txt'
             script {
-                sh "cp recipe.txt recipe-${buildTimestamp}.txt"
+                
+		   
+		def buildTimestamp = env.BUILD_ID
+		def newName = "recipe-${buildTimestamp}.txt"
+
+		sh "cp recipe.txt recipe-${newName}"
             }
 
 	}
