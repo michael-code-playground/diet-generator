@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import PyPDF2 
 import os
 import re
@@ -22,7 +20,7 @@ def filter_out(search_result):
 
 #determine path desktop, catalog with cookbooks
 def create_paths():
-    desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
+    desktop_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
     recipes_path = os.path.join(desktop_path, "NUTRITION")
     return recipes_path
 
