@@ -12,9 +12,7 @@ pipeline {
 	stage('Install Dependencies') {
             steps {
                 script {
-                    // Create and activate virtual environment
-                    sh 'python3 -m venv venv'
-                    sh 'source venv/bin/activate'
+                    
 
                     // Install dependencies
                     sh 'pip3 install PyPDF2'
