@@ -33,4 +33,19 @@ pipeline {
         }
 
     }
+
+
+
+
+	post {
+        success {
+            // Archive and rename the artifact in the workspace
+            archiveArtifacts 'recipe.txt'
+            script {
+                sh "cp recipe.txt recipe-${buildTimestamp}.txt"
+            }
+
+	}
+	}
 }
+
