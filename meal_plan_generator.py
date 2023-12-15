@@ -28,7 +28,7 @@ def create_paths():
 
 #return folders in the main one
 def return_list_of_folders():
-    folders_in_nutrition = os.listdir(create_paths())
+    folders_in_nutrition = os.listdir("/home/ubuntu/tests/NUTRITION")
     return folders_in_nutrition
 
 #get user's input
@@ -48,7 +48,7 @@ users_intake = get_calorie_intake()
 
 #iterate through each catalog
 for folder in folders_in_nutrition:
-    current_folder = os.path.join(create_paths(), folder)
+    current_folder = os.path.join("/home/ubuntu/tests/NUTRITION", folder)
     files = os.listdir(current_folder)
     storage = []
     
