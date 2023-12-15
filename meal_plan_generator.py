@@ -105,8 +105,8 @@ for pos in  menu:
     
 
     #extract a complete recipe
-    path_desktop = create_paths()
-    current_folder = os.path.join(path_desktop, folders_in_nutrition[count], "")
+    
+    current_folder = os.path.join("/home/ubuntu/tests/NUTRITION", folders_in_nutrition[count], "")
     file_path = current_folder+str(book_no)+".pdf"
     count = count + 1
     reader = PyPDF2.PdfReader(file_path)
