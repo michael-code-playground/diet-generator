@@ -15,7 +15,7 @@ pipeline {
                     
 
                     // Install dependencies
-                    sh 'pip3 install PyPDF2'
+                    sh 'pip3 install PyPDF2==3.0.1'
                 }
             }
         }
