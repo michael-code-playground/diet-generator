@@ -32,6 +32,13 @@ pipeline {
             }
         }
 
+	stage('Debug') {
+    		steps {
+        	   // Print the location of pytest
+        	    sh 'which pytest'
+    }
+}
+
 
 
 	stage('Run Tests') {
