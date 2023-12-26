@@ -32,12 +32,7 @@ pipeline {
             }
         }
 
-	stage('Debug') {
-    		steps {
-        	   // Print the location of pytest
-        	    sh 'which pytest'
-    }
-}
+
 
 
 
@@ -47,7 +42,7 @@ pipeline {
         	    sh 'pip install pytest'
 
         	    // Run pytest
-        	    sh 'pytest tests'
+        	    sh 'python3 -m pytest tests'
     }                 
 }
 
