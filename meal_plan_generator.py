@@ -76,52 +76,66 @@ for folder in folders_in_nutrition:
     if current_folder_name not in main_recipes_storage:
          main_recipes_storage[current_folder_name] = storage
 
-#repeat until criteria below is met   
-while True:
-    menu = []
+
+
+for i in range(0,4):
+    
+    req_another_run = False 
+    
+    #repeat until criteria below is met   
+    while True:
+        menu = []
+        calories = 0
+        
+        #pick out random recipe for each meal
+        for category in main_recipes_storage:
+                random_book = random.choice(main_recipes_storage[category])
+                meal_tuple = random.choice(random_book)
+                book_number = main_recipes_storage[category].index(random_book)+1
+                meal, page_no = meal_tuple
+                calories = calories + meal
+                menu_pos = meal, page_no, book_number
+                menu.append(menu_pos)
+        
+        #break if calories fit user's requirement
+        if calories > users_intake-200 and calories < users_intake+100:
+            break      
+
     calories = 0
-    
-    #pick out random recipe for each meal
-    for category in main_recipes_storage:
-            random_book = random.choice(main_recipes_storage[category])
-            meal_tuple = random.choice(random_book)
-            book_number = main_recipes_storage[category].index(random_book)+1
-            meal, page_no = meal_tuple
+    #display results
+    count = 0
+    for pos in  menu:
+        meal, page_no, book_no = pos
+        #extract a complete recipe
+        
+        current_folder = os.path.join("/home/ubuntu/tests/NUTRITION", folders_in_nutrition[count], "")
+        file_path = current_folder+str(book_no)+".pdf"
+        count = count + 1
+        reader = PyPDF2.PdfReader(file_path)
+        
+        try:
+            page = reader.pages[page_no]
+        
             calories = calories + meal
-            menu_pos = meal, page_no, book_number
-            menu.append(menu_pos)
-    
-    #break if calories fit user's requirement
-    if calories > users_intake-200 and calories < users_intake+100:
-        break      
+            #redirect content to the file 
+            with open("recipe.txt", 'a', encoding='utf-8') as file:
+            
+                file.write(f"{str(calories)}\n{page.extract_text()}\n")
 
-calories = 0
-#display results
-count = 0
-for pos in  menu:
-    meal, page_no, book_no = pos
-    #extract a complete recipe
-    
-    current_folder = os.path.join("/home/ubuntu/tests/NUTRITION", folders_in_nutrition[count], "")
-    file_path = current_folder+str(book_no)+".pdf"
-    count = count + 1
-    reader = PyPDF2.PdfReader(file_path)
-    
-    try:
-        page = reader.pages[page_no]
-    
-        calories = calories + meal
-        #redirect content to the file 
-        with open("recipe.txt", 'a', encoding='utf-8') as file:
+            print(f'See page {page_no}, in the book {book_no}, you will be fuelled with {meal} kcal')
         
-            file.write(f"{str(calories)}\n{page.extract_text()}\n")
+        except IndexError:
+            
+            print("Let me have a think")
+            req_another_run = True
+            
+            with open("recipe.txt", 'w', encoding='utf-8') as file:
+                file.write("")
 
-        print(f'See page {page_no}, in the book {book_no}, you will be fuelled with {meal} kcal')
-    
-    except IndexError:
-        
-        print("Let me have a think")
+            break
 
+    if req_another_run == False:
+        break
 
 print(f'Your daily intake: {calories}')
 
