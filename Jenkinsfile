@@ -21,7 +21,7 @@ pipeline {
         }
 
 
-	stage('Run Tests') {
+	stage('Execute the script') {
             steps {
                 script {
                     // Run your Python program with automated input
@@ -31,6 +31,20 @@ pipeline {
                 }
             }
         }
+
+
+
+	stage('Run Tests') {
+    	    steps {
+        	    // Install pytest
+        	    sh 'pip install pytest'
+
+        	    // Run pytest
+        	    sh 'pytest tests'
+    }                 
+}
+
+
 
     }
 
