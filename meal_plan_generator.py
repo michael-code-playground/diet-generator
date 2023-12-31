@@ -3,6 +3,7 @@ import os
 import re
 import random
 from collections import OrderedDict
+from translate import translate
 
 #delete unecessary characters, convert into float
 def filter_out(search_result):
@@ -99,6 +100,7 @@ count = 0
 for pos in  menu:
     meal, page_no, book_no = pos
     print(f'See page {page_no}, in the book {book_no}, you will be fuelled with {meal} kcal')
+    print()
     calories = calories + meal
     
 
@@ -113,7 +115,26 @@ for pos in  menu:
     #redirect content to the file 
     with open("recipe.txt", 'a', encoding='utf-8') as file:
         
-        file.write(f"{str(calories)}\n{page.extract_text()}\n")
+        content_en= translate(page.extract_text())
+        # Extract Ingredients
+        ingredients_pattern = re.compile(r'(\d+\s*g\s*\([^)]+\)\s*\S+(?:\s*\(.*?\))?.*?)(?:\n|$)')
+        ingredients_matches = ingredients_pattern.findall(content_en)
+        ingredients_list = [match.strip() for match in ingredients_matches]
+
+        # # Print the extracted ingredients
+        for ingredient in ingredients_list:
+             print(ingredient)
+             file.write(f"{str(calories)}\n{ingredient}\n")
+        #file.write(f"{str(calories)}\n{content_en}\n")
+        # # Extract Instructions
+        instructions_pattern = re.compile(r'(?:(?<=^)|(?<=\n))\d\.\s*(.*?)(?:\n\d\.\s*(.*?))*(?:\n|$)')
+        instructions_matches = instructions_pattern.findall(content_en)
+        instructions_list = [match[0].strip() for match in instructions_matches]
+
+        # Print the extracted instructions
+        for instruction in instructions_list:
+            print(instruction)
+
 
 print(f'Your daily intake: {calories}')
 
