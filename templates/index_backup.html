@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <title>Meal Plan Generator</title>
+</head>
+<body>
+
+<div class="container">
+    <h2>Meal Plan Generator</h2>
+
+    <form id="caloriesForm">
+        <label for="calories">Enter desired calories:</label>
+        <input type="number" id="calories" name="calories" required>
+        <button type="button" onclick="generateMealPlan()">Generate Meal Plan</button>
+    </form>
+
+    <div id="recipeSpace">
+        <!-- This is where the generated recipes will be displayed -->
+    </div>
+</div>
+
+
+</body>
+</html>
