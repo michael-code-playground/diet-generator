@@ -99,8 +99,9 @@ calories = 0
 count = 0
 for pos in  menu:
     meal, page_no, book_no = pos
-    print(f'See page {page_no}, in the book {book_no}, you will be fuelled with {meal} kcal')
     print()
+    print(f'See page {page_no}, in the book {book_no}, you will be fuelled with {meal} kcal')
+    
     calories = calories + meal
     
 
@@ -116,6 +117,8 @@ for pos in  menu:
     with open("recipe.txt", 'a', encoding='utf-8') as file:
         
         content_en= translate(page.extract_text())
+        file.write(f"\nThis recipe contains {str(meal)} kcal\n")
+        
         # Extract Ingredients
         ingredients_pattern = re.compile(r'(\d+\s*g\s*\([^)]+\)\s*\S+(?:\s*\(.*?\))?.*?)(?:\n|$)')
         ingredients_matches = ingredients_pattern.findall(content_en)
@@ -124,7 +127,7 @@ for pos in  menu:
         # # Print the extracted ingredients
         for ingredient in ingredients_list:
              print(ingredient)
-             file.write(f"{str(calories)}\n{ingredient}\n")
+             file.write(f"{ingredient}\n")
         #file.write(f"{str(calories)}\n{content_en}\n")
         # # Extract Instructions
         instructions_pattern = re.compile(r'(?:(?<=^)|(?<=\n))\d\.\s*(.*?)(?:\n\d\.\s*(.*?))*(?:\n|$)')
@@ -134,8 +137,9 @@ for pos in  menu:
         # Print the extracted instructions
         for instruction in instructions_list:
             print(instruction)
+            file.write(f"{instruction}\n")
 
-
+print()
 print(f'Your daily intake: {calories}')
 
 
