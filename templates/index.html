@@ -13,8 +13,15 @@
     <section class="header">
 <h3 class="title">Meal Plan Generator</h3>
 
-    <h3>Text</h3>
-
+{% for recipe in recipes %}
+    {{ recipe }}
+{% endfor %}
+    <!-- {% for recipe in recipes %}
+    <div class="recipe-card">
+        <h2>Recipe</h2>
+        <p>{{ recipe }}</p>
+    </div>
+    {% endfor %} -->
 
     <form method="get">
         <label for="calories">Enter desired calories:</label>

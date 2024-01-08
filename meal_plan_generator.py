@@ -40,10 +40,20 @@ def get_calorie_intake():
             print("Try once again")
     return intake
 
-    
+#read calories from the txt file
+def read_calories_from_file():
+    with open('calories.txt', 'r') as file:
+        return int(file.read().strip())
+
+
+
 main_recipes_storage = OrderedDict()
 folders_in_nutrition = return_list_of_folders()
-users_intake = get_calorie_intake()
+
+#Get user input from txt file instead
+users_intake = read_calories_from_file()
+
+#users_intake = get_calorie_intake()
 
 #iterate through each catalog
 for folder in folders_in_nutrition:
